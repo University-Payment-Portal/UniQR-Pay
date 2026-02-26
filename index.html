@@ -44,8 +44,8 @@
             // 4. Create the "Data String"
             // In a real app, this URL would send the student to a secure checkout
             // This uses a real website (Google) and adds your variables to the search
-// Change this to your NEW GitHub link!
-             var paymentData = "https://yourusername.github.io/uni-pay/?id=" + id + "&amt=" + amt;
+            // Change the URL inside the quotes to your NEW GitHub Pages link
+            var paymentData = "https://university-payment-portal.github.io/UniQR-Pay/?id=" + id + "&amt=" + amt;
             // 5. Generate the QR Code
             new QRCode(qrContainer, {
                 text: paymentData,
