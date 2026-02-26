@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University QR Payment</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
+    <style>
+        /* A little bit of CSS to make it look clean */
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+        input { padding: 10px; margin: 10px; width: 200px; display: block; margin: 10px auto; }
+        button { padding: 10px 20px; background-color: #004a99; color: white; border: none; cursor: pointer; }
+        #qrcode { margin-top: 20px; display: flex; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <h1>University Online Payment</h1>
+    <p>Please fill in your details to generate a payment QR.</p>
+
+    <input type="text" id="studentID" placeholder="Student ID (e.g. 2024-001)">
+    <input type="number" id="amount" placeholder="Amount (PHP)">
+    
+    <button onclick="generatePayment()">Generate QR Code</button>
+
+    <div id="qrcode"></div>
+
+    <script>
+        function generatePayment() {
+            // Get the values the student typed
+            var id = document.getElementById("studentID").value;
+            var amt = document.getElementById("amount").value;
+            var qrContainer = document.getElementById("qrcode");
+
+            // Clear the box if there was an old QR code there
+            qrContainer.innerHTML = "";
+
+            if (id === "" || amt === "") {
+                alert("Please enter both Student ID and Amount!");
+                return;
+            }
+
+            // 4. Create the "Data String"
+            // In a real app, this URL would send the student to a secure checkout
+            // This uses a real website (Google) and adds your variables to the search
+// Change this to your NEW GitHub link!
+             var paymentData = "https://yourusername.github.io/uni-pay/?id=" + id + "&amt=" + amt;
+            // 5. Generate the QR Code
+            new QRCode(qrContainer, {
+                text: paymentData,
+                width: 200,
+                height: 200
+            });
+        }
+    </script>
+
+</body>
+</html>
