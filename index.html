@@ -26,58 +26,53 @@
 
     <div id="qrcode"></div>
 
-    window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const studentId = urlParams.get('id');
-    const amount = urlParams.get('amt');
-
-    if (studentId && amount) {
-        document.body.innerHTML = `
-            <div style="max-width: 450px; margin: 30px auto; font-family: sans-serif; padding: 25px; border: 1px solid #e0e0e0; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;">
-                <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                    <h2 style="color: #004a99; margin: 0;">LPU Payment Portal</h2>
-                    <p style="color: #666; font-size: 14px;">Secure Student Checkout</p>
-                </div>
-                <div style="text-align: left; margin-bottom: 25px; line-height: 1.6;">
-                    <p><strong>Student ID:</strong> <span style="float: right;">${studentId}</span></p>
-                    <p><strong>Description:</strong> <span style="float: right;">Tuition Fees</span></p>
-                    <hr style="border: 0.5px solid #eee;">
-                    <p style="font-size: 20px; font-weight: bold;">Total: <span style="float: right; color: #d9534f;">₱${amount}</span></p>
-                </div>
-                <h4 style="text-align: left; color: #555;">Select Payment Method:</h4>
-                <button onclick="alert('Proceeding to Mock GCash...')" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold;">Pay with GCash</button>
-                <button onclick="alert('Proceeding to Mock Maya...')" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #28a745; color: white; border: none; border-radius: 8px; font-weight: bold;">Pay with Maya</button>
-                <button onclick="window.location.href='index.html'" style="width: 100%; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 8px;">Cancel</button>
-                <p style="font-size: 11px; color: #aaa; margin-top: 20px;">Ref No: ${Math.floor(Math.random() * 1000000000)}</p>
-            </div>
-        `;
-    }
-}
-
     <script>
-        function generatePayment() {
-            // Get the values the student typed
-            var id = document.getElementById("studentID").value;
-            var amt = document.getElementById("amount").value;
-            var qrContainer = document.getElementById("qrcode");
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('id');
+        const amount = urlParams.get('amt');
 
-            // Clear the box if there was an old QR code there
-            qrContainer.innerHTML = "";
-
-            if (id === "" || amt === "") {
-                alert("Please enter both Student ID and Amount!");
-                return;
-            }
-
-            var paymentData = "https://university-payment-portal.github.io/UniQR-Pay/?id=" + id + "&amt=" + amt;
-            // 5. Generate the QR Code
-            new QRCode(qrContainer, {
-                text: paymentData,
-                width: 200,
-                height: 200
-            });
+        if (studentId && amount) {
+            // We use '₱' + amount to ensure only the Peso sign shows
+            document.body.innerHTML = `
+                <div style="max-width: 450px; margin: 30px auto; font-family: sans-serif; padding: 25px; border: 1px solid #e0e0e0; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center;">
+                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                        <h2 style="color: #004a99; margin: 0;">LPU Payment Portal</h2>
+                        <p style="color: #666; font-size: 14px;">Secure Student Checkout</p>
+                    </div>
+                    <div style="text-align: left; margin-bottom: 25px; line-height: 1.6;">
+                        <p><strong>Student ID:</strong> <span style="float: right;">` + studentId + `</span></p>
+                        <p><strong>Description:</strong> <span style="float: right;">Tuition Fees</span></p>
+                        <hr style="border: 0.5px solid #eee;">
+                        <p style="font-size: 20px; font-weight: bold;">Total: <span style="float: right; color: #d9534f;">₱` + amount + `</span></p>
+                    </div>
+                    <h4 style="text-align: left; color: #555;">Select Payment Method:</h4>
+                    <button onclick="alert('Proceeding to Mock GCash...')" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #007bff; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Pay with GCash</button>
+                    <button onclick="alert('Proceeding to Mock Maya...')" style="width: 100%; padding: 12px; margin-bottom: 10px; background: #28a745; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Pay with Maya</button>
+                    <button onclick="window.location.href='index.html'" style="width: 100%; padding: 12px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+                </div>
+            `;
         }
-    </script>
+    }
 
-</body>
-</html>
+    function generatePayment() {
+        var id = document.getElementById("studentID").value;
+        var amt = document.getElementById("amount").value;
+        var qrContainer = document.getElementById("qrcode");
+
+        qrContainer.innerHTML = "";
+
+        if (id === "" || amt === "") {
+            alert("Please enter both Student ID and Amount!");
+            return;
+        }
+
+        var paymentData = "https://university-payment-portal.github.io/UniQR-Pay/?id=" + id + "&amt=" + amt;
+        
+        new QRCode(qrContainer, {
+            text: paymentData,
+            width: 200,
+            height: 200
+        });
+    }
+</script>
